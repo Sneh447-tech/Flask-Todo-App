@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Todo App</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="todo-card">
+
+            <h1><i class="fa-solid fa-list-check"></i> Todo Manager</h1>
+            <p class="subtitle">Organize your daily tasks professionally</p>
+
+            <form action="{{ url_for('add') }}" method="POST" class="todo-form">
+                <input type="text" name="todoitem" placeholder="Enter a new task..." required>
+                <button type="submit">
+                    <i class="fa-solid fa-plus"></i> Add
+                </button>
+            </form>
+
+            <div class="task-section">
+                <h2><i class="fa-solid fa-hourglass-half"></i> Pending Tasks</h2>
+
+                {% if incomplete %}
+                    {% for todo in incomplete %}
+                    <div class="task-item pending">
+                        <span>{{ todo.text }}</span>
+
+                        <a href="{{ url_for('complete', id=todo.id) }}" class="complete-btn">
+                            Complete
+                        </a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="empty">No pending tasks</p>
+                {% endif %}
+            </div>
+
+            <div class="task-section">
+                <h2><i class="fa-solid fa-circle-check"></i> Completed Tasks</h2>
+
+                {% if complete %}
+                    {% for todo in complete %}
+                    <div class="task-item completed">
+                        <span>{{ todo.text }}</span>
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="empty">No completed tasks</p>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
